@@ -9,6 +9,7 @@ const net = require('net');
 
 const app = express();
 const PORT = process.env.PORT || 5969;
+axios.defaults.timeout = 300000; // 设置全局请求超时时间为300秒
 
 
 // 检测端口是否可用的函数
@@ -54,7 +55,7 @@ app.get('/test', (req, res) => {
 });
 
 // 添加请求代理接口
-app.post('/api', async (req, res) => {
+app.post('/express/api', async (req, res) => {
   try {
     const data = req.body;
     const url = 'https://app-go.heytea.com' + data.url;
@@ -82,7 +83,7 @@ app.post('/api', async (req, res) => {
 });
 
 // 添加新的上传接口，用于代理上传到heytea服务
-app.post('/upload', upload.fields([{ name: 'file', maxCount: 1 }]), async (req, res) => {
+app.post('/express/upload', upload.fields([{ name: 'file', maxCount: 1 }]), async (req, res) => {
   try {
     // 获取表单数据
     const { width, height, sign, t, token } = req.body;
